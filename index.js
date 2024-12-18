@@ -137,7 +137,7 @@ function tinhDiem() {
 }
 
 // Hàm reset giá trị cho button reset
-function resetForm() {
+function resetForm1() {
   document.getElementById("diemChuan").value = "";
   document.getElementById("khuVucA").checked = false;
   document.getElementById("khuVucB").checked = false;
@@ -150,26 +150,63 @@ function resetForm() {
 }
 
 // Bài 2: Tính tiền điện
-function tinhTrungBinh() {
-  // Input
-  let soThu1 = document.getElementById("soThu1").value;
-  let soThu2 = document.getElementById("soThu2").value;
-  let soThu3 = document.getElementById("soThu3").value;
-  let soThu4 = document.getElementById("soThu4").value;
-  let soThu5 = document.getElementById("soThu5").value;
+document.getElementById("btnTinhTienDien").onclick = function () {
+  // input
+  let giaTien50kwDau = 500;
+  let giaTien50kwKe = 650;
+  let giaTien100kwKe = 850;
+  let giaTien150kwKe = 1100;
+  let giaTien350kwTroDi = 1300;
+  let soKW = document.getElementById("soKW").value * 1;
+  let hoTen = document.getElementById("hoTen").value;
+  let tongTien = 0;
 
   // progress
-  let sum =
-    parseInt(soThu1) +
-    parseInt(soThu2) +
-    parseInt(soThu3) +
-    parseInt(soThu4) +
-    parseInt(soThu5);
-  let trungBinh = sum / 5;
-  document.getElementById("trungBinh").innerHTML = trungBinh;
+  // Kiểm tra đầu vào
+  if (soKW <= 0) {
+    alert("Vui lòng nhập số KW điện");
+    return;
+  } else if (hoTen === "") {
+    alert("Vui lòng nhập họ tên");
+    return;
+  }
+  // Tính tiền điện
+  if (soKW <= 50) {
+    tongTien = soKW * giaTien50kwDau;
+  } else if (soKW > 50 && soKW <= 100) {
+    tongTien = 50 * giaTien50kwDau + (soKW - 50) * giaTien50kwKe;
+  } else if (soKW > 100 && soKW <= 200) {
+    tongTien =
+      50 * giaTien50kwDau + 50 * giaTien50kwKe + (soKW - 100) * giaTien100kwKe;
+  } else if (soKW > 200 && soKW <= 350) {
+    tongTien =
+      50 * giaTien50kwDau +
+      50 * giaTien50kwKe +
+      100 * giaTien100kwKe +
+      (soKW - 200) * giaTien150kwKe;
+  } else if (soKW > 350) {
+    tongTien =
+      50 * giaTien50kwDau +
+      50 * giaTien50kwKe +
+      100 * giaTien100kwKe +
+      150 * giaTien150kwKe +
+      (soKW - 350) * giaTien350kwTroDi;
+  }
 
-  // output
-  trungBinh = 0;
+  //   output
+  document.getElementById("tienDien").innerHTML =
+    "Khách hàng: " +
+    hoTen +
+    "; Tổng tiền điện của bạn là: " +
+    new Intl.NumberFormat().format(tongTien) +
+    " đ";
+};
+
+// Hàm reset giá trị cho button reset
+function resetForm2() {
+  document.getElementById("hoTen").value = "";
+  document.getElementById("soKW").value = "";
+  document.getElementById("tienDien").innerHTML = "";
 }
 
 // Bài 3: Tính thuế thu nhập cá nhân
