@@ -50,22 +50,10 @@ let chonKhuVuc = () => {
   return khuVuc;
 };
 
+// Vì thuộc tính .checked chỉ dùng cho input type="radio" nên phải viết hàm chonDoiTuong như sau để lấy giá trị của select
 let chonDoiTuong = () => {
-  let doiTuong0 = document.getElementById("doiTuong0").checked;
-  let doiTuong1 = document.getElementById("doiTuong1").checked;
-  let doiTuong2 = document.getElementById("doiTuong2").checked;
-  let doiTuong3 = document.getElementById("doiTuong3").checked;
-  let doiTuong = "";
-  if (doiTuong0) {
-    doiTuong0 = "0";
-  } else if (doiTuong1) {
-    doiTuong1 = "1";
-  } else if (doiTuong2) {
-    doiTuong2 = "2";
-  } else if (doiTuong3) {
-    doiTuong3 = "3";
-  }
-  return doiTuong;
+  let doiTuong = document.getElementById("doiTuong").value;
+  return doiTuong.replace("doiTuong", "");
 };
 
 // Xử lý sự kiện cho button tính điểm
@@ -113,32 +101,53 @@ function tinhDiem() {
       break;
   }
 
-//   // So sánh tổng điểm với điểm chuẩn
-//   TongDiem = diemkhuVuc + diemDoiTuong + diemMon1 + diemMon2 + diemMon3;
-//   if (TongDiem >= diemChuan) {
-//     console.log("Chúc mừng bạn đã đậu! Tổng điểm của bạn là: " + TongDiem);
-//     document.getElementById("tongLuong").innerHTML = tongLuong.toLocaleString();
-//   } else {
-//     console.log("Rất tiếc! Bạn đã rớt! Tổng điểm của bạn là: " + TongDiem);
-//   }
+  // Kiểm tra đầu vào
 
-//   // Kiểm tra đầu vào
+  if (diemMon1 === 0 || diemMon2 === 0 || diemMon3 === 0) {
+    alert("Vui lòng nhập điểm môn học");
+    return;
+  } else if (diemChuan === 0) {
+    alert("Vui lòng nhập điểm chuẩn");
+    return;
+  } else if (diemChuan < 0 || diemChuan > 30) {
+    alert("Vui lòng nhập điểm chuẩn từ 1 đến 30");
+    return;
+  } else if (diemMon1 < 0 || diemMon2 < 0 || diemMon3 < 0) {
+    alert("Vui lòng nhập điểm môn học từ 0 đến 10");
+    return;
+  }
 
-//   if (diemMon1 === 0 || diemMon2 === 0 || diemMon3 === 0) {
-//     alert("Vui lòng nhập điểm môn học");
-//   } else if (diemChuan === 0) {
-//     alert("Vui lòng nhập điểm chuẩn");
-//   } else if (
-//     diemMon1 === 0 ||
-//     diemMon2 === 0 ||
-//     (diemMon3 === 0 && diemChuan === 0)
-//   ) {
-//     alert("Vui lòng nhập điểm môn học và điểm chuẩn");
-//   }
+  // Tính tổng điểm
+  TongDiem = diemkhuVuc + diemDoiTuong + diemMon1 + diemMon2 + diemMon3;
 
-//   // output
-//   document.getElementById("tongLuong").innerHTML = tongLuong.toLocaleString();
-// }
+  // Kiểm tra đậu rớt
+  let ketQua = "";
+  if (TongDiem >= diemChuan) {
+    ketQua =
+      "Chúc mừng bạn đã đậu! Tổng điểm của bạn là: " +
+      TongDiem.toLocaleString();
+  } else if (TongDiem < diemChuan && TongDiem > 0) {
+    ketQua =
+      "Rất tiếc! Bạn đã rớt! Tổng điểm của bạn là: " +
+      TongDiem.toLocaleString();
+  }
+
+  // output
+  document.getElementById("tongDiem").innerHTML = ketQua;
+}
+
+// Hàm reset giá trị cho button reset
+function resetForm() {
+  document.getElementById("diemChuan").value = "";
+  document.getElementById("khuVucA").checked = false;
+  document.getElementById("khuVucB").checked = false;
+  document.getElementById("khuVucC").checked = false;
+  document.getElementById("doiTuong").value = "doiTuong0";
+  document.getElementById("diemMon1").value = "";
+  document.getElementById("diemMon2").value = "";
+  document.getElementById("diemMon3").value = "";
+  document.getElementById("tongDiem").innerHTML = "";
+}
 
 // Bài 2: Tính tiền điện
 function tinhTrungBinh() {
