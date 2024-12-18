@@ -210,16 +210,77 @@ function resetForm2() {
 }
 
 // Bài 3: Tính thuế thu nhập cá nhân
-function doiTien() {
+function tinhTienThue() {
   // input
-  let usd = document.getElementById("usd").value;
+  let nguoiDongThue = document.getElementById("nguoiDongThue").value;
+  let tongThuNhapNam = document.getElementById("tongThuNhapNam").value * 1;
+  let soNguoiPhuThuoc = document.getElementById("nguoiPhuThuoc").value * 1;
+  let tienThue = 0;
+  let thuNhapChiuThue = 0;
 
   // progress
-  tongTien = 23500 * usd;
-  document.getElementById("tongTien").innerHTML = tongTien.toLocaleString();
+  // Kiểm tra đầu vào
+  if (tongThuNhapNam <= 5600000 || tongThuNhapNam === "") {
+    alert("Vui lòng nhập tổng thu nhập năm hợp lệ");
+    return;
+  } else if (nguoiDongThue === "") {
+    alert("Vui lòng nhập họ tên");
+    return;
+  } else if (soNguoiPhuThuoc === "" || soNguoiPhuThuoc < 0) {
+    alert("Vui lòng nhập số người phụ thuộc hợp lệ");
+    return;
+  }
+  // Tính thuế
+  thuNhapChiuThue = tongThuNhapNam - 4e6 - soNguoiPhuThuoc * 1.6e6;
+  if (thuNhapChiuThue <= 60e6) {
+    tienThue = thuNhapChiuThue * 0.05;
+  } else if (thuNhapChiuThue <= 120e6) {
+    tienThue = 60e6 * 0.05 + (thuNhapChiuThue - 60e6) * 0.1;
+  } else if (thuNhapChiuThue <= 210e6) {
+    tienThue = 60e6 * 0.05 + 60e6 * 0.1 + (thuNhapChiuThue - 120e6) * 0.15;
+  } else if (thuNhapChiuThue <= 384e6) {
+    tienThue =
+      60e6 * 0.05 + 60e6 * 0.1 + 90e6 * 0.15 + (thuNhapChiuThue - 210e6) * 0.2;
+  } else if (thuNhapChiuThue <= 624e6) {
+    tienThue =
+      60e6 * 0.05 +
+      60e6 * 0.1 +
+      90e6 * 0.15 +
+      174e6 * 0.2 +
+      (thuNhapChiuThue - 384e6) * 0.25;
+  } else if (thuNhapChiuThue <= 960e6) {
+    tienThue =
+      60e6 * 0.05 +
+      60e6 * 0.1 +
+      90e6 * 0.15 +
+      174e6 * 0.2 +
+      240e6 * 0.25 +
+      (thuNhapChiuThue - 624e6) * 0.3;
+  } else if (thuNhapChiuThue > 960e6) {
+    tienThue =
+      60e6 * 0.05 +
+      60e6 * 0.1 +
+      90e6 * 0.15 +
+      174e6 * 0.2 +
+      240e6 * 0.25 +
+      336e6 * 0.3 +
+      (thuNhapChiuThue - 960e6) * 0.35;
+  }
+  // output
+  document.getElementById("tienThue").innerHTML =
+    "Khách hàng: " +
+    nguoiDongThue +
+    "; Số tiền thuế thu nhập cá nhân của bạn là: " +
+    new Intl.NumberFormat().format(tienThue) +
+    " đ";
+}
 
-  // Output
-  let tongTien = 0;
+// Hàm reset giá trị cho button reset
+function resetForm3() {
+  document.getElementById("nguoiDongThue").value = "";
+  document.getElementById("tongThuNhapNam").value = "";
+  document.getElementById("nguoiPhuThuoc").value = "";
+  document.getElementById("tienThue").innerHTML = "";
 }
 
 // Bài 4: Tính tiền cáp
