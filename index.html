@@ -298,43 +298,55 @@
                     <select
                       class="form-control rounded-xl my-3 py-2 pl-3"
                       id="loaiKhachHang"
+                      onchange="chonLoaiKhachHang()"
                     >
                       <option value="chonLoai">Chọn loại khách hàng</option>
                       <option value="nhaDan">Nhà Dân</option>
-                      <option value="doanhNghiep">Doanh Nghiệpm</option>
+                      <option value="doanhNghiep">Doanh Nghiệp</option>
                     </select>
                   </div>
-                  <div class="form-group text-black">
-                    <p>Nhập vào chiều dài hình chữ nhật:</p>
+                  <div class="form-group text-black hidden" id="soKetNoiDiv">
+                    <p>Số kết nối:</p>
                     <input
                       type="number"
                       class="form-control rounded-xl my-3"
-                      id="chieuDai"
+                      id="soKetNoi"
                     />
                   </div>
                   <div class="form-group text-black">
-                    <p>Nhập vào chiều rộng hình chữ nhật:</p>
+                    <p>Nhập mã khách hàng:</p>
+                    <input
+                      type="text"
+                      class="form-control rounded-xl my-3"
+                      id="maKH"
+                    />
+                  </div>
+                  <div class="form-group text-black">
+                    <p>Số kênh cao cấp:</p>
                     <input
                       type="number"
                       class="form-control rounded-xl my-3"
-                      id="chieuRong"
+                      id="soKenh"
                     />
                   </div>
                 </div>
                 <div class="text-center rounded-xl bg-orange-200 mt-5">
                   <button
-                    onclick="tinh()"
+                    onclick="tinhTienCap()"
                     id="btnTinh"
                     class="btn bg-green-600 m-3 text-white rounded-xl py-2 px-4 font-semibold"
                   >
-                    Tính
+                    Tính tiền cáp
+                  </button>
+                  <button
+                    onclick="resetForm4()"
+                    id="btnReset"
+                    class="btn bg-red-600 m-3 text-white rounded-xl p-2 font-semibold"
+                  >
+                    Reset
                   </button>
                   <div class="pb-3 font-bold text-black">
-                    Diện tích:
-                    <span class="btn" id="dienTich">0</span>
-                    <br />
-                    Chu vi:
-                    <span class="btn" id="chuVi">0</span>
+                    <span class="btn" id="tienCap"></span>
                   </div>
                 </div>
               </div>

@@ -284,19 +284,72 @@ function resetForm3() {
 }
 
 // Bài 4: Tính tiền cáp
-function tinh() {
+// Xử lý sự kiện Onchange khi chọn loại khách hàng
+function chonLoaiKhachHang() {
+  let loaiKhachHang = document.getElementById("loaiKhachHang").value;
+  let soKetNoidiv = document.getElementById("soKetNoiDiv");
+  if (loaiKhachHang === "doanhNghiep") {
+    soKetNoidiv.style.display = "block";
+  } else {
+    soKetNoidiv.style.display = "none";
+  }
+}
+
+// Xử lý sự kiện cho button tính tiền cáp
+function tinhTienCap() {
   // input
-  let chieuDai = document.getElementById("chieuDai").value;
-  let chieuRong = document.getElementById("chieuRong").value;
-  // console.log(chieuDai, chieuRong); -> check
+  let maKH = document.getElementById("maKH").value;
+  let soKenh = document.getElementById("soKenh").value * 1;
+  let loaiKhachHang = document.getElementById("loaiKhachHang").value;
+  let soKetNoi = document.getElementById("soKetNoi").value * 1;
+  let tienCap = 0;
 
   // progress
-  dienTich = chieuDai * chieuRong;
-  chuVi = (parseInt(chieuDai) + parseInt(chieuRong)) * 2;
-  document.getElementById("dienTich").innerHTML = dienTich;
-  document.getElementById("chuVi").innerHTML = chuVi;
+  // Kiểm tra đầu vào
+  if (maKH === "") {
+    alert("Vui lòng nhập mã khách hàng");
+    return;
+  } else if (soKenh <= 0 || soKenh === "") {
+    alert("Vui lòng nhập số kênh hợp lệ");
+    return;
+  } else if (loaiKhachHang === "chonLoai") {
+    alert("Vui lòng chọn loại khách hàng");
+    return;
+  } else if (loaiKhachHang === "doanhNghiep" && soKetNoi <= 0) {
+    alert("Vui lòng nhập số kết nối");
+    return;
+  }
 
+  switch (loaiKhachHang) {
+    case "nhaDan": {
+      let phiXuLyHoaDon = 4.5;
+      let phiDichVu = 20.5;
+      let phiThueKenh = 7.5;
+      tienCap = phiXuLyHoaDon + phiDichVu + soKenh * phiThueKenh;
+      break;
+    }
+    case "doanhNghiep": {
+      phiXuLyHoaDon = 15;
+      phiThueKenh = 50;
+      phiDichVu = soKetNoi <= 10 ? 75 : 75 + (soKetNoi - 10) * 5;
+      tienCap = phiXuLyHoaDon + phiDichVu + soKenh * phiThueKenh;
+      break;
+    }
+    default:
+      console.log("vui lòng chọn loại khách hàng");
+      break;
+  }
   // output
-  let dienTich = 0;
-  let chuVi = 0;
+  document.getElementById("tienCap").innerHTML =
+    "Mã khách hàng: " + maKH + "; Tiền cáp: $" + tienCap.toLocaleString();
+}
+
+// Hàm reset giá trị cho button reset
+function resetForm4() {
+  document.getElementById("maKH").value = "";
+  document.getElementById("soKenh").value = "";
+  document.getElementById("loaiKhachHang").value = "chonLoai";
+  document.getElementById("soKetNoi").value = "";
+  document.getElementById("tienCap").innerHTML = "";
+  document.getElementById("soKetNoiDiv").style.display = "none";
 }
